@@ -1,7 +1,10 @@
 package com.bestboke.shell.tools;
 
 
-import java.io.*;
+import com.alibaba.fastjson.JSONArray;
+
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,6 +31,15 @@ public class MySshIOManager {
     private int mCmdIdx;
     private boolean canSend;
 
+    private JSONArray out = new JSONArray();
+
+    public JSONArray getOut() {
+        return out;
+    }
+
+    public void setOut(String out) {
+        this.out.add(out);
+    }
 
     public InputStream getInputStream() {
         return mInputStream;
@@ -102,6 +114,13 @@ public class MySshIOManager {
         }
     }
 
+
+    public void enableSend(String out) {
+        synchronized (mCommands) {
+            setOut(out.trim().replaceAll("\\r|\\n", ""));
+            mCommands.notify();
+        }
+    }
 
     public void enableSend() {
         synchronized (mCommands) {

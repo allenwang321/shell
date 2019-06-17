@@ -27,11 +27,13 @@ public class MyOutputStream extends OutputStream {
             // To clear the screen, this time I just print the response only when next command can execute.
             // You can change the code as your wish. For example, once get a character, just show it.
             if (sb.toString().trim().endsWith(command.getEnds())) {
-                System.out.print(sb.toString());
+                // System.out.print(sb.toString());
+
+                mManager.enableSend(sb.toString());
                 sb.delete(0, sb.length());
 
                 // Once a 'expected' response found, notify the manager to let the "inputStream' to work.
-                mManager.enableSend();
+
             }
         } catch (Exception e) {
             e.printStackTrace();
